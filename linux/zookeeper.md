@@ -166,9 +166,9 @@ src：源码
 
 ### zoo.cfg配置
 
-![](img\66.png)
+![](./img/66.png)
 
-![](img\67.png)
+![](./img/67.png)
 
 将```conf/```目录下的```zoo_sample.cfg```文件拷贝为```zoo.cfg```,，查看文件。
 
@@ -258,15 +258,15 @@ Stopping zookeeper ... STOPPED
 
 ## zookeeper基本数据模型
 
-![](img\68.png)
+![](./img/68.png)
 
 
 
-![](img\69.png)![](img\70.png)
+![](./img/69.png)![](./img/70.png)
 
-![](img\71.png)
+![](./img/71.png)
 
-![](img\72.png)
+![](./img/72.png)
 
 ## zookeeper作用体现
 
@@ -725,7 +725,7 @@ zk集群，主从节点，心跳机制（选举模式）
 
 当一个节点挂掉后，两个slave节点竞争，其中一个节点竞争为master，挂掉的节点重新加入集群是以slave的形式添加进去的。
 
-![](img\73.png)
+![](./img/73.png)
 
 ### zookeeper集群搭建注意点
 

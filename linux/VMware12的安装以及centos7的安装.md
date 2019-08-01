@@ -12,19 +12,19 @@
 
 
 
-![2](img\2.png)
+![2](./img/2.png)
 
 
 
-![3](img\3.png)
+![3](./img/3.png)
 
 
 
-![4](img\4.png)
+![4](./img/4.png)
 
 
 
-![5](img\5.png)
+![5](./img/5.png)
 
 ### VMware安装Centos7
 
@@ -32,81 +32,81 @@
 
 已经上传到了百度云盘：https://pan.baidu.com/s/1wZ2k1wH8hz-MBYws9flQQQ   提取码：zt89
 
-![6](img\6.png)
+![6](./img/6.png)
 
-![7](img\7.png)
+![7](./img/7.png)
 
-![8](img\8.png)
+![8](./img/8.png)
 
-![9](img\9.png)
+![9](./img/9.png)
 
-![10](img\10.png)
+![10](./img/10.png)
 
-![11](img\11.png)
+![11](./img/11.png)
 
-![12](img\12.png)
+![12](./img/12.png)
 
-![13](img\13.png)
+![13](./img/13.png)
 
-![14](img\14.png)
+![14](./img/14.png)
 
-![15](img\15.png)
+![15](./img/15.png)
 
-![16](img\16.png)
+![16](./img/16.png)
 
-![17](img\17.png)
+![17](./img/17.png)
 
-![18](img\18.png)
+![18](./img/18.png)
 
-![19](img\19.png)
+![19](./img/19.png)
 
-![20](img\20.png)
+![20](./img/20.png)
 
-![21](img\21.png)
+![21](./img/21.png)
 
-![22](img\22.png)
+![22](./img/22.png)
 
-![23](img\23.png)
+![23](./img/23.png)
 
-![24](img\24.png)
+![24](./img/24.png)
 
-![25](img\25.png)
+![25](./img/25.png)
 
-![26](img\26.png)
+![26](./img/26.png)
 
-![27](img\27.png)
+![27](./img/27.png)
 
-![28](img\28.png)
+![28](./img/28.png)
 
-![29](img\29.png)
+![29](./img/29.png)
 
-![30](img\30.png)
+![30](./img/30.png)
 
-![31](img\31.png)
+![31](./img/31.png)
 
-![32](img\32.png)
+![32](./img/32.png)
 
-![33](img\33.png)
+![33](./img/33.png)
 
-![34](img\34.png)
+![34](./img/34.png)
 
-![35](img\35.png)
+![35](./img/35.png)
 
-![36](img\36.png)
+![36](./img/36.png)
 
-![37](img\37.png)
+![37](./img/37.png)
 
 
 
-![38](img\38.png)
+![38](./img/38.png)
 
 等待进度条后重启，重启后会有如下操作：
 
-![](img\39.png)
+![](./img/39.png)
 
 
 
-![](img\40.png)
+![](./img/40.png)
 
 成功启动后输入root的用户名和密码登录，接着会有一系列的选项，**其中有隐私的选项记得打开**，这样就会有服务，可以访问互联网。
 
@@ -175,19 +175,19 @@ poweroff
 
 右键点击虚拟机，选择“管理”、“克隆
 
-![](img\62.png)
+![](./img/62.png)
 
 
 
-![](img\63.png)
+![](./img/63.png)
 
 
 
-![](img\64.png)
+![](./img/64.png)
 
 
 
-![](img\65.png)
+![](./img/65.png)
 
 修改主机名：
 
@@ -227,59 +227,59 @@ secureCRT以及其注册机已经上传百度云：https://pan.baidu.com/s/12cta
 
 #### 安装secureCRT
 
-![](img\41.png)
+![](./img/41.png)
 
 
 
-![](img\42.png)
+![](./img/42.png)
 
 
 
-![](img\43.png)
+![](./img/43.png)
 
 
 
-![](img\44.png)
+![](./img/44.png)
 
 
 
-![](img\45.png)
+![](./img/45.png)
 
 
 
-![](img\46.png)
+![](./img/46.png)
 
 #### 激活secureCRT
 
 打开注册机
 
-![](img\47.png)
+![](./img/47.png)
 
-![](img\49.png)
+![](./img/49.png)
 
-![](img\50.png)
+![](./img/50.png)
 
-![](img\51.png)
+![](./img/51.png)
 
-![](img\52.png)
+![](./img/52.png)
 
-![](img\53.png)
+![](./img/53.png)
 
-![](img\54.png)
+![](./img/54.png)
 
-![](img\55.png)
+![](./img/55.png)
 
-![](img\56.png)
+![](./img/56.png)
 
-![](img\57.png)
+![](./img/57.png)
 
-![](img\58.png)
+![](./img/58.png)
 
-![](img\59.png)
+![](./img/59.png)
 
-![](img\60.png)
+![](./img/60.png)
 
-![](img\61.png)
+![](./img/61.png)
 
 ### 安装JDK
 
