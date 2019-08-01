@@ -782,3 +782,536 @@ server.3=192.168.119.130:2888:3888
 
 启动成功后可以通过命令查看启动模式，这是就会有```leader```，``follower``两种显示了
 
+## Apache curator 客户端
+
+比较常用的zk客户端
+
+### zk原生api的不足之处
+
++ 超时重连，不支持自动，需要手动操作。
+
++ Watch注册一次后会失效。
+
++ zk不支持递归创建节点
+
+  
+
+### Apache curator
+
++ Apache的开源项目
+
++ 解决watcher的注册一次就失效
+
++ Api更加简单易用
+
++ 提供更多解决方案并且实现简单：比如　分布式锁
+
++ 提供常用的Zookeeper工具类
+
++ 编程风格比较爽（比如建造者模式的builder）
+
+  
+
+### curator客户端的使用
+
+#### 会话的连接与关闭
+
+添加依赖
+
+```
+<!--加入zookeeper-->
+<dependency>
+    <groupId>org.apache.zookeeper</groupId>
+    <artifactId>zookeeper</artifactId>
+    <version>3.4.11</version>
+</dependency>
+
+<!-- 加入curator客户端 -->
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-framework</artifactId>
+    <version>4.0.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-recipes</artifactId>
+    <version>4.0.0</version>
+</dependency>
+```
+
+创建curator操作类：
+
+```java
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.*;
+
+public class CuratorOperator {
+
+    public CuratorFramework client = null;
+    // 集群的地址使用逗号分割就好了
+    public static final String zkServerPath = "192.168.119.128:2181";
+
+    /**
+     * 实例化zk客户端
+     */
+    public CuratorOperator() {
+
+        // 重试的机制或者策略
+        /**
+         * 同步创建zk示例，原生api是异步的
+         * curator链接zookeeper的策略：ExponentialBackoffRetry
+         * baseSleepTimeMs: 初始化sleep的时间 两次重试的间隔时间
+         * maxRetries: 最大重试次数 超时重试次数
+         * maxSleepMs: 最大重试时间 超时重试最大间隔时间
+         */
+        //RetryPolicy retryPolicy
+        //        = new ExponentialBackoffRetry(1000, 5);
+
+        /**
+         * curator链接zookeeper的策略：RetryNTimes（可以重试N次）
+         * n: 重试的次数
+         * sleepMsBetweenRetries: 每次重试间隔的时间
+         */
+        RetryPolicy retryPolicy = new RetryNTimes(3, 5000);
+
+        /**
+         * 重试一次
+         * curator链接zookeeper的策略：RetryOneTime
+         * sleepMsBetweenRetry: 每次重试间隔的时间
+         */
+
+        RetryPolicy retryPolicy2 = new RetryOneTime(3000);
+
+        /**
+         * 永远重试，不推荐使用
+         */
+        RetryPolicy retryPolicy3 = new RetryForever(5000);
+
+        /**
+         * curator链接zookeeper的策略：RetryUntilElapsed
+         * maxElasedTimeMs: 最大重试时间
+         * sleepMsBetweenRetries: 每次重试间隔
+         * 重试时间冲啊过maxElasedTimeMs后，就不再重试
+         */
+        RetryPolicy retryPolicy4 = new RetryUntilElapsed(2000, 3000);
+
+        // 启动
+        client = CuratorFrameworkFactory.builder()
+                .connectString(zkServerPath)
+                .sessionTimeoutMs(10000).retryPolicy(retryPolicy)
+                // .namespace("curator") // 命名空间
+                .build();
+        client.start();
+    }
+
+    /**
+     * 关闭zk客户端连接
+     */
+    public void closeZKClient() {
+        if (client != null) {
+            this.client.close();
+        }
+    }
+}
+```
+
+测试：
+
+```
+public static void main(String[] args) throws InterruptedException {
+        CuratorOperator cto = new CuratorOperator();
+        boolean isZkCuratorStarted = cto.client.isStarted();
+        System.out.println("当前客户端的状态：" + (isZkCuratorStarted ? "连接中" : "已关闭"));
+
+        Thread.sleep(3000);
+
+        cto.closeZKClient();
+
+        boolean isZkCuratorStarted2 = cto.client.isStarted();
+        System.out.println("当前客户端的状态：" + (isZkCuratorStarted2 ? "连接中" : "已关闭"));
+    }
+```
+
+```java
+11:20:27.477 [main] INFO org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=192.168.119.131:2181,192.168.119.131:2182,192.168.119.131:2183 sessionTimeout=10000 watcher=org.apache.curator.ConnectionState@68837a77
+11:20:27.479 [main] DEBUG org.apache.zookeeper.ClientCnxn - zookeeper.disableAutoWatchReset is false
+11:20:28.079 [main-SendThread(192.168.119.131:2182)] INFO org.apache.zookeeper.ClientCnxn - Opening socket connection to server 192.168.119.131/192.168.119.131:2182. Will not attempt to authenticate using SASL (unknown error)
+11:20:28.081 [main-SendThread(192.168.119.131:2182)] INFO org.apache.zookeeper.ClientCnxn - Socket connection established to 192.168.119.131/192.168.119.131:2182, initiating session
+11:20:28.082 [main] INFO org.apache.curator.framework.imps.CuratorFrameworkImpl - Default schema
+当前客户端的状态：连接中
+11:20:28.083 [main-SendThread(192.168.119.131:2182)] DEBUG org.apache.zookeeper.ClientCnxn - Session establishment request sent on 192.168.119.131/192.168.119.131:2182
+11:20:28.097 [main-SendThread(192.168.119.131:2182)] INFO org.apache.zookeeper.ClientCnxn - Session establishment complete on server 192.168.119.131/192.168.119.131:2182, sessionid = 0x200000c0a940000, negotiated timeout = 10000
+11:20:28.099 [main-EventThread] DEBUG org.apache.curator.ConnectionState - Negotiated session timeout: 10000
+11:20:28.104 [main-EventThread] INFO org.apache.curator.framework.state.ConnectionStateManager - State change: CONNECTED
+11:20:31.083 [main] DEBUG org.apache.curator.framework.imps.CuratorFrameworkImpl - Closing
+11:20:31.084 [Curator-Framework-0] INFO org.apache.curator.framework.imps.CuratorFrameworkImpl - backgroundOperationsLoop exiting
+11:20:31.084 [main] DEBUG org.apache.curator.CuratorZookeeperClient - Closing
+11:20:31.084 [main] DEBUG org.apache.curator.ConnectionState - Closing
+11:20:31.085 [main] DEBUG org.apache.zookeeper.ZooKeeper - Closing session: 0x200000c0a940000
+11:20:31.085 [main] DEBUG org.apache.zookeeper.ClientCnxn - Closing client for session: 0x200000c0a940000
+11:20:31.096 [main-SendThread(192.168.119.131:2182)] DEBUG org.apache.zookeeper.ClientCnxn - Reading reply sessionid:0x200000c0a940000, packet:: clientPath:null serverPath:null finished:false header:: 1,-11  replyHeader:: 1,8589934595,0  request:: null response:: null
+11:20:31.096 [main] DEBUG org.apache.zookeeper.ClientCnxn - Disconnecting client for session: 0x200000c0a940000
+11:20:31.096 [main-SendThread(192.168.119.131:2182)] DEBUG org.apache.zookeeper.ClientCnxn - An exception was thrown while closing send thread for session 0x200000c0a940000 : Unable to read additional data from server sessionid 0x200000c0a940000, likely server has closed socket
+11:20:31.096 [main] INFO org.apache.zookeeper.ZooKeeper - Session: 0x200000c0a940000 closed
+当前客户端的状态：已关闭
+```
+
+#### 节点的增删改
+
+增加```namespace```,类似于工作站
+
+```java
+client = CuratorFrameworkFactory.builder()
+                .connectString(zkServerPath)
+                .sessionTimeoutMs(10000).retryPolicy(retryPolicy)
+                .namespace("curator") // 命名空间
+                .build();
+        client.start();
+```
+
+**创建节点：**
+
+```java
+// 创建节点
+String nodePath = "/super/imooc";
+byte[] data = "superme".getBytes();
+cto.client.create().creatingParentsIfNeeded() // 如果需要创建父节点
+    .withMode(CreateMode.PERSISTENT) // 创建的模式：持久化节点，临时节点、持久化顺序节点、持久化临时节点
+    /**
+      *     PERSISTENT(0, false, false),
+      *     PERSISTENT_SEQUENTIAL(2, false, true),
+      *     EPHEMERAL(1, true, false),
+      *     EPHEMERAL_SEQUENTIAL(3, true, true);
+      */
+    .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE) // 所有权限
+    .forPath(nodePath, data);
+```
+
+查看了下确实有节点创建，因为是集群查看了其他两台也是创建了的：
+
+```
+[zk: localhost:2181(CONNECTED) 0] ls /
+[curator, zookeeper, new-data]
+[zk: localhost:2181(CONNECTED) 1] get /curator/super/imooc
+superme
+cZxid = 0x200000008
+ctime = Thu Aug 01 11:41:14 CST 2019
+mZxid = 0x200000008
+mtime = Thu Aug 01 11:41:14 CST 2019
+pZxid = 0x200000008
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 7
+numChildren = 0
+[zk: localhost:2181(CONNECTED) 2] 
+```
+
+**修改节点**
+
+```java
+// 更新节点数据
+String nodePath = "/super/imooc";
+byte[] newData = "batman".getBytes();
+cto.client.setData()
+    .withVersion(0) // 数据版本号必须一致，这儿也可以不加，加了是为了保持一个乐观锁
+    .forPath(nodePath, newData);  
+```
+
+```\
+[zk: localhost:2181(CONNECTED) 1] get /curator/super/imooc
+batman
+cZxid = 0x200000008
+ctime = Thu Aug 01 11:41:14 CST 2019
+mZxid = 0x20000000e
+mtime = Thu Aug 01 11:51:33 CST 2019
+pZxid = 0x200000008
+cversion = 0
+dataVersion = 1
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 6
+numChildren = 0
+```
+
+**删除节点**
+
+```java
+// 删除节点
+cto.client.delete()
+    // 两个方法可加可不加
+    .guaranteed() // 如果删除失败，那么在后端还是继续会删除，直到成功。 万一出现网络抖动。
+    .deletingChildrenIfNeeded() // 如果有子节点也一并删掉
+    .withVersion(1)
+    .forPath(nodePath);
+```
+
+```
+[zk: localhost:2181(CONNECTED) 17] ls /curator/super
+[]
+```
+
+**查询节点**
+
+读取节点数据：
+
+```java
+// 读取节点 stat还可以取到很多节点的信息
+Stat stat = new Stat();
+byte[] data = cto.client.getData().storingStatIn(stat).forPath(nodePath);
+System.out.println("节点：" + nodePath + "的数据为" + new String(data));
+System.out.println("节点的版本号：" + stat.getVersion());
+```
+
+```
+节点：/super/imooc的数据为superme
+节点的版本号：0
+```
+
+查询子节点：
+
+```java
+// 查询子节点
+List<String> childNodes = cto.client.getChildren().forPath(nodePath);
+for (int i = 0; i < childNodes.size(); i++) {
+    System.out.println(childNodes.get(i));
+}
+```
+
+创建了子节点就会打印出来
+
+```
+a
+b
+c
+```
+
+判断节点是否为空，如果不存在则为空
+
+```jva
+Stat statExist = cto.client.checkExists().forPath(nodePath);
+System.out.println(statExist);
+
+打印结果：比如版本号，时间戳之类的 toString后的结果
+8589934612,8589934612,1564632179751,1564632179751,0,3,0,0,7,3,8589934620
+```
+
+#### wach与acl的相关操作
+
+创建自定义的watcher类
+
+```java
+public class MyCuratorWatcher implements CuratorWatcher {
+    @Override
+    public void process(WatchedEvent event) throws Exception {
+        System.out.println("触发watcher, 节点路径：" + event.getPath());
+    }
+}
+```
+
+还有另一种：
+
+```java
+public class MyWatcher implements Watcher {
+    @Override
+    public void process(WatchedEvent event) {
+        System.out.println("触发watcher, 节点路径：" + event.getPath());
+    }
+}
+```
+
+添加：
+
+```java
+// watcher　事件　当使用usingWatcher的时候，监听只会触发一次，监听完后就会销毁
+cto.client.getData().usingWatcher(new MyCuratorWatcher()).forPath(nodePath);
+// 这是原生的wacher
+// cto.client.getData().usingWatcher(new MyWatcher()).forPath(nodePath);
+```
+
+```java
+触发watcher, 节点路径：/super/imooc
+```
+
+另外一种方式，只需要注册一次，就可以监听多次
+
+```java
+// 监听缓存， nodeCache：监听数据节点的变更，会触发事件
+final NodeCache nodeCache = new NodeCache(cto.client, nodePath);
+// buildInitial: 初始化的时候获取node的值并且缓存
+nodeCache.start(true);
+if (nodeCache.getCurrentData() != null) {
+    System.out.println("节点初始化数据为：" + new String(nodeCache.getCurrentData().getData()));
+} else {
+    System.out.println("节点初始化数据为空");
+}
+```
+
+```
+节点初始化数据为：1212
+```
+
+添加额外监听器：
+
+```java
+nodeCache.getListenable().addListener(new NodeCacheListener() {
+            // 当数据发生变化
+            @Override
+            public void nodeChanged() throws Exception {
+                String data =  new String(nodeCache.getCurrentData().getData());
+                System.out.println("节点路径：" + nodeCache.getCurrentData().getPath() + "数据:" + data);
+            }
+        });
+```
+
+也可以使用lamda表达式
+
+````java
+nodeCache.getListenable().addListener(() -> {
+            String data =  new String(nodeCache.getCurrentData().getData());
+            System.out.println("节点路径：" + nodeCache.getCurrentData().getPath() + "数据:" + data);
+        });
+````
+
+删除节点后这个会报错 因为节点不存在 取不出数据， ``nodeCache.getCurrentData().getData()``。增加这个监听器后，节点的数据操作都会被监听到。
+
+**监听子节点**
+
+```java
+//        为子节点添加watcher
+        // PathChildrenCache: 监听数据节点的增删改，会触发事件
+        String childNodePathCache = nodePath;
+        // cacheData: 设置缓存节点的数据状态
+        PathChildrenCache pathChildrenCache
+                = new PathChildrenCache(cto.client, childNodePathCache, true/*cacheData: 设置缓存节点的数据状态*/);
+        /**
+         * startMode: 初始化方式
+         * POST_INITIALIZED_EVENT: 异步初始化，初始化后之后会触发事件
+         * NORMAL： 异步初始化，初始化后获取不到数据
+         * BUILD_INITIAL_CACHE：同步初始化，初始化后可以获取子节点的数据
+         */
+        pathChildrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
+
+        // 获取子节点的数据，只有设置了BUILD_INITIAL_CACHE模式的才能获取到
+        List<ChildData> currentData = pathChildrenCache.getCurrentData();
+        System.out.println("当前数据节点的子节点数据列表");
+        for (int i = 0; i < currentData.size(); i++) {
+            ChildData cd = currentData.get(i);
+            String childData = new String(cd.getData());
+            System.out.println(childData);
+        }
+        // 添加监听器
+//        pathChildrenCache.getListenable().addListener(new PathChildrenCacheListener() {
+//            @Override
+//            public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
+//
+//            }
+//        });
+        // 使用lamda表达式
+        pathChildrenCache.getListenable().addListener((curatorFramework, event) -> {
+            if (event.getType().equals(PathChildrenCacheEvent.Type.INITIALIZED)) {
+                // startmode是POST_INITIALIZED_EVENT会触发这个事件
+                System.out.println("子节点初始化ok");
+            } else if (event.getType().equals(PathChildrenCacheEvent.Type.CHILD_ADDED)) {
+                System.out.println("添加子节点路径：" + event.getData().getPath());
+                System.out.println("子节点数据：" + new String(event.getData().getData()));
+            } else if (event.getType().equals(PathChildrenCacheEvent.Type.CHILD_REMOVED)) {
+                System.out.println("删除子节点：" + event.getData().getPath());
+            } else if (event.getType().equals(PathChildrenCacheEvent.Type.CHILD_UPDATED)) {
+                System.out.println("修改子节点路径：" + event.getData().getPath());
+                System.out.println("修改子节点数据：" + new String(event.getData().getData()));
+            }
+        });
+```
+
+#### Watcher统一配置
+
+运维修改某一个节点，可以同步到其他节点上面
+
+#### 权限操作
+
+````java
+public class CuratorOperatorAcl {
+
+    public CuratorFramework client = null;
+    // 集群的地址使用逗号分割就好了
+    public static final String zkServerPath = "192.168.119.132:2181,192.168.119.132:2182,192.168.119.132:2183";
+
+    /**
+     * 实例化zk客户端
+     */
+    public CuratorOperatorAcl() {
+
+        RetryPolicy retryPolicy = new RetryNTimes(3, 5000);
+
+        // 启动 加入用户的登录，不再匿名
+        client = CuratorFrameworkFactory.builder().authorization("digest", "immoc1:123456".getBytes())
+                .connectString(zkServerPath)
+                .sessionTimeoutMs(10000).retryPolicy(retryPolicy)
+                .namespace("curator") // 命名空间
+                .build();
+        client.start();
+    }
+
+    /**
+     * 关闭zk客户端连接
+     */
+    public void closeZKClient() {
+        if (client != null) {
+            this.client.close();
+        }
+    }
+
+    private static String getDigestUserPwd(String id) {
+        String digest = "";
+        try {
+            digest = DigestAuthenticationProvider.generateDigest(id);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return digest;
+    }
+
+    public static void main(String[] args) throws Exception {
+        CuratorOperatorAcl cto = new CuratorOperatorAcl();
+        boolean isZkCuratorStarted = cto.client.isStarted();
+        System.out.println("当前客户端的状态：" + (isZkCuratorStarted ? "连接中" : "已关闭"));
+
+        String nodePath = "/acl/father/child";
+
+        List<ACL> acls = new ArrayList<ACL>();
+
+        Id imooc1 = new Id("digest", getDigestUserPwd("imooc1:123456"));
+        Id imooc2 = new Id("digest", getDigestUserPwd("imooc2:123456"));
+        acls.add(new ACL(ZooDefs.Perms.ALL, imooc1));
+        acls.add(new ACL(ZooDefs.Perms.READ, imooc2));
+        acls.add(new ACL(ZooDefs.Perms.DELETE | ZooDefs.Perms.CREATE, imooc2));
+
+        // 创建节点
+        byte[] bytes = "spiderman".getBytes();
+        cto.client.create().creatingParentsIfNeeded()
+                .withMode(CreateMode.PERSISTENT)
+                // 如果添加了true那么权限就会影响父节点，简单说就是父节点也会有相应的权限
+                // 这儿创建就是一边创建一边赋予权限，因为是匿名登录会报错，因为没有权限，需要登录
+                .withACL(acls, true)
+                .forPath(nodePath, bytes);
+		
+        // 设置权限
+        cto.client.setACL().withACL(acls).forPath("/curatorNode");
+        
+        Thread.sleep(10000000);
+
+        cto.closeZKClient();
+
+        boolean isZkCuratorStarted2 = cto.client.isStarted();
+        System.out.println("当前客户端的状态：" + (isZkCuratorStarted2 ? "连接中" : "已关闭"));
+    }
+}
+````
+
+
+
