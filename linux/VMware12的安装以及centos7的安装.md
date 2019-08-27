@@ -115,6 +115,7 @@
 ```
 systemctl stop firewalld # 临时关闭防火墙
 systemctl disable firewalld # 禁止开机启动
+farewall-cmd --state #查看防火墙状态
 ```
 
 **重启服务**
@@ -336,10 +337,10 @@ secureCRT以及其注册机已经上传百度云：https://pan.baidu.com/s/12cta
       :q!
       ````
 
-      在````export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL```下面添加配置
+      在```export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL```下面添加配置
 
       ```
-      export JAVA_HOME=/usr/jdk8 #jdk安装目录
+      export JAVA_HOME=/usr/local/jdk8
       export CLASSPATH=.:%JAVA_HOME%/lib/dt.jar:%JAVA_HOME%/lib/tools.jar
       export PATH=$PATH:$JAVA_HOME/bin
       ```

@@ -44,7 +44,7 @@ vim /etc/profile
 
 加上zookeeper配置
 
-```
+``` java
 export JAVA_HOME=/usr/jdk8
 export ZOOKEEPER_HOME=/usr/local/zookeeper
 export CLASSPATH=.:%JAVA_HOME%/lib/dt.jar:%JAVA_HOME%/lib/tools.jar
