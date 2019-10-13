@@ -34,7 +34,7 @@ public boolean compareAndSet(int expect, int newValue) {
 }
 ````
 
-缺点：耗费CPU资源，没有竞争到的锁的线程会一直占用CPU进行CAS操作，假设一个线程获得锁后要花费Ns处理业务逻辑，那另外一个线程就会拜拜的花费Ns的CPU资源。
+缺点：耗费CPU资源，没有竞争到的锁的线程会一直占用CPU进行CAS操作，假设一个线程获得锁后要花费Ns处理业务逻辑，那另外一个线程就会花费Ns的CPU资源。
 
 思路：让得不到锁的线程让出CPU。
 

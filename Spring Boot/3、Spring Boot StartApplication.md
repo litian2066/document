@@ -56,7 +56,7 @@ SpringApplication.run(DevInSpringBootApplication.class, args);
 public class DevInSpringBootApplication {
 
     public static void main(String[] args) {
-		// 需要丢进去的不一定是主类，只要是一个配置类就行了
+				// 需要丢进去的不一定是主类，只要是一个配置类就行了
         SpringApplication.run(ApplicationConfiguration.class, args);
     }
 
@@ -93,7 +93,7 @@ public class DevInSpringBootApplication {
 }
 ````
 
-`这种方式也行`
+这种方式也行
 
 #### 通过 SpringApplication API调整
 
@@ -119,17 +119,18 @@ public SpringApplication(ResourceLoader resourceLoader, Class... primarySources)
         this.additionalProfiles = new HashSet();
         this.isCustomEnvironment = false;
         this.resourceLoader = resourceLoader;
+  			// Java 断言
         Assert.notNull(primarySources, "PrimarySources must not be null");
         this.primarySources = new LinkedHashSet(Arrays.asList(primarySources));
-    	// 推断Web类型
+    		// 推断Web类型
         this.webApplicationType = WebApplicationType.deduceFromClasspath();
         // 初始化上下文				             	
-    this.setInitializers(
-    this.getSpringFactoriesInstances(ApplicationContextInitializer.class));
-       // 初始化监听器
-    this.setListeners(this.getSpringFactoriesInstances(ApplicationListener.class));
-    	// 推断引导类    
-    this.mainApplicationClass = this.deduceMainApplicationClass();
+        this.setInitializers(
+        this.getSpringFactoriesInstances(ApplicationContextInitializer.class));
+        // 初始化监听器
+        this.setListeners(this.getSpringFactoriesInstances(ApplicationListener.class));
+        // 推断引导类    
+        this.mainApplicationClass = this.deduceMainApplicationClass();
     }
 ````
 
