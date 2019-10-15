@@ -145,7 +145,7 @@ void addEntry(int hash, K key, V value, int bucketIndex) {
         hash = (null != key) ? hash(key) : 0;
         bucketIndex = indexFor(hash, table.length);
     }
-	// 添加元素
+		// 添加元素
     createEntry(hash, key, value, bucketIndex);
 }
 ```
@@ -172,7 +172,7 @@ void resize(int newCapacity) {
         threshold = Integer.MAX_VALUE;
         return;
     }
-	// 创建新的数组
+		// 创建新的数组
     Entry[] newTable = new Entry[newCapacity];
     boolean oldAltHashing = useAltHashing;
     useAltHashing |= sun.misc.VM.isBooted() &&
