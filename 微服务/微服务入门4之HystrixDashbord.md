@@ -101,7 +101,7 @@ public class PxHystrixDashborApplication {
 
 ## 怎么使用Config？
 
-刚刚讲完理论，那么我们来实践一下，怎么配置这个confi呢？我们刚刚说过：由一个`config server`来管理所有的配置文件，那么我们现在新建一个`config server`项目，然后引入依赖: 
+刚刚讲完理论，那么我们来实践一下，怎么配置这个config呢？我们刚刚说过：由一个`config server`来管理所有的配置文件，那么我们现在新建一个`config server`项目，然后引入依赖: 
 
 ````xml
 <dependency>

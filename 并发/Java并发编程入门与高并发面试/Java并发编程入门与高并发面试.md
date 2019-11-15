@@ -502,7 +502,7 @@ if (obj != null &&
 ```
 
 ```java
-看判断条件如果desc.hasReadResolveMethod()为true 就会执行这个方法，所以会在原来的类里面添加readResolve（）方法
+看判断条件如果desc.hasReadResolveMethod()为true 就会执行这个方法，所以会在原来的类里面添加readResolve()方法
 ```
 
 ##### 2、反射破坏

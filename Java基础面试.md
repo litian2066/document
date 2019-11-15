@@ -1,55 +1,8 @@
-最近看到网上流传着各种面试经验及面试题，往往都是一大堆技术题目贴上去，但是没有答案。
-
-为此我业余时间整理了40道Java基础常见的面试题及详细答案，望各路大牛发现不对的地方不吝赐教，留言即可。
-
-1. 八种基本数据类型的大小，以及他们的封装类
-2. 引用数据类型
-3. Switch能否用string做参数
-4. equals与==的区别
-5. 自动装箱，常量池
-6. Object有哪些公用方法
-7. Java的四种引用，强弱软虚，用到的场景
-8. Hashcode的作用
-9. HashMap的hashcode的作用
-10. 为什么重载hashCode方法？
-11. ArrayList、LinkedList、Vector的区别
-12. String、StringBuffer与StringBuilder的区别
-13. Map、Set、List、Queue、Stack的特点与用法
-14. HashMap和HashTable的区别
-15. JDK7与JDK8中HashMap的实现
-16. HashMap和ConcurrentHashMap的区别，HashMap的底层源码
-17. ConcurrentHashMap能完全替代HashTable吗
-18. 为什么HashMap是线程不安全的
-19. 如何线程安全的使用HashMap
-20. 多并发情况下HashMap是否还会产生死循环
-21. TreeMap、HashMap、LindedHashMap的区别
-22. Collection包结构，与Collections的区别
-23. try?catch?finally，try里有return，finally还执行么
-24. Excption与Error包结构，OOM你遇到过哪些情况，SOF你遇到过哪些情况
-25. Java(OOP)面向对象的三个特征与含义
-26. Override和Overload的含义去区别
-27. Interface与abstract类的区别
-28. Static?class?与non?static?class的区别
-29. java多态的实现原理
-30. foreach与正常for循环效率对比
-31. Java?IO与NIO
-32. java反射的作用于原理
-33. 泛型常用特点
-34. 解析XML的几种方式的原理与特点：DOM、SAX
-35. Java1.7与1.8,1.9,10 新特性
-36. 设计模式：单例、工厂、适配器、责任链、观察者等等
-37. JNI的使用
-38. AOP是什么
-39. OOP是什么
-40. AOP与OOP的区别
-
 ## 八种基本数据类型的大小，以及他们的封装类
 
 八种基本数据类型：int、short、float、double、long、boolean、byte、char。
 
 封装类分别是：Integer、Short、Float、Double、Long、Boolean、Byte、Character。
-
-![img](https://user-gold-cdn.xitu.io/2018/3/12/1621877dd5a6f298?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 ## 引用数据类型
 
@@ -63,7 +16,7 @@
 
 ## Switch能否用string做参数
 
-**jdk7之前** switch 只能支持 byte、short、char、int 这几个基本数据类型和其对应的封装类型。
+**jdk7之前**switch只能支持 byte、short、char、int 这几个基本数据类型和其对应的封装类型。
 
 **switch后面的括号里面只能放int类型的值，但由于byte，short，char类型，它们会?自动?转换为int类型（精精度小的向大的转化），所以它们也支持**。
 
@@ -71,14 +24,40 @@
 
 **原理**
 
-```
-`switch` `(expression) ``// 括号里是一个表达式，结果是个整数{`` ``case` `constant1:  ``// case 后面的标号，也是个整数``   ``group of statements ``1``;``   ``break``;`` ``case` `constant2:``   ``group of statements ``2``;``   ``break``;`` ``...`` ``default``:``   ``default` `group of statements``}`
+```java
+switch (expression)  // 括号里是一个表达式，结果是个整数{
+  case constant1:   // case 后面的标号，也是个整数
+     group of statements 1;
+     break;
+  case constant2:
+     group of statements 2;
+     break;
+  ...
+  default:
+     default group of statements
+}
 ```
 
 jdk1.7后，整形，枚举类，字符串都可以。
 
-```
-`public` `class` `TestString {` `  ``static` `String string = ``"123"``;``  ``public` `static` `void` `main(String[] args) {``    ``switch` `(string) {``    ``case` `"123"``:``      ``System.out.println(``"123"``);``      ``break``;``    ``case` `"abc"``:``      ``System.out.println(``"abc"``);``      ``break``;``    ``default``:``      ``System.out.println(``"defauls"``);``      ``break``;``    ``}``  ``}``}`
+```java
+public class TestString {
+ 
+    static String string = "123";
+    public static void main(String[] args) {
+        switch (string) {
+        case "123":
+            System.out.println("123");
+            break;
+        case "abc":
+            System.out.println("abc");
+            break;
+        default:
+            System.out.println("defauls");
+            break;
+        }
+    }
+}
 ```
 
 为什么jdk1.7后又可以用string类型作为switch参数呢？
@@ -89,22 +68,49 @@ jdk1.7后，整形，枚举类，字符串都可以。
 
 使用==比较原生类型如：boolean、int、char等等，使用equals()比较对象。
 
-1、==是判断两个变量或实例是不是指向同一个内存空间。 equals是判断两个变量或实例所指向的内存空间的值是不是相同。
+1. ==是判断两个变量或实例是不是指向同一个内存空间。 equals是判断两个变量或实例所指向的内存空间的值是不是相同。
 
-2、==是指对内存地址进行比较。 equals()是对字符串的内容进行比较。
+2. ==是指对内存地址进行比较。 equals()是对字符串的内容进行比较。
 
-3、==指引用是否相同。 equals()指的是值是否相同。
+3. ==指引用是否相同。 equals()指的是值是否相同。
 
-```
-`public` `static` `void` `main(String[] args) {` `    ``String a = ``new` `String(``"ab"``); ``// a 为一个引用``    ``String b = ``new` `String(``"ab"``); ``// b为另一个引用,对象的内容一样``    ``String aa = ``"ab"``; ``// 放在常量池中``    ``String bb = ``"ab"``; ``// 从常量池中查找` `    ``System.out.println(aa == bb); ``// true``    ``System.out.println(a == b); ``// false，非同一对象``    ``System.out.println(a.equals(b)); ``// true``    ``System.out.println(``42` `== ``42.0``); ``// true``  ``}` `public` `static` `void` `main(String[] args) {``  ``Object obj1 = ``new` `Object();``  ``Object obj2 = ``new` `Object();``  ``System.out.println(obj1.equals(obj2));``//false``  ``System.out.println(obj1==obj2);``//false``  ``obj1=obj2;``  ``System.out.println(obj1==obj2);``//true``  ``System.out.println(obj2==obj1);``//true``}`
+```java
+public static void main(String[] args) {
+ 
+        String a = new String("ab"); // a 为一个引用
+        String b = new String("ab"); // b为另一个引用,对象的内容一样
+        String aa = "ab"; // 放在常量池中
+        String bb = "ab"; // 从常量池中查找
+ 
+        System.out.println(aa == bb); // true
+        System.out.println(a == b); // false，非同一对象
+        System.out.println(a.equals(b)); // true
+        System.out.println(42 == 42.0);  // true
+    }
+ 
+public static void main(String[] args) {
+    Object obj1 = new Object();
+    Object obj2 = new Object();
+    System.out.println(obj1.equals(obj2));//false
+    System.out.println(obj1==obj2);//false
+    obj1=obj2;
+    System.out.println(obj1==obj2);//true
+    System.out.println(obj2==obj1);//true
+}
 ```
 
 ## 自动装箱，常量池
 
 自动装箱 在jdk?1.5之前，如果你想要定义一个value为100的Integer对象，则需要如下定义：
 
-```
-`Integer i = ``new` `Integer(``100``);` `int` `intNum1 = ``100``; ``//普通变量``Integer intNum2 = intNum1; ``//自动装箱``int` `intNum3 = intNum2; ``//自动拆箱``Integer intNum4 = ``100``; ``//自动装箱`
+```java
+Integer i = new Inte
+  ger(100);
+ 
+int intNum1 = 100; //普通变量
+Integer intNum2 = intNum1; //自动装箱
+int intNum3 = intNum2; //自动拆箱
+Integer intNum4 = 100; //自动装箱
 ```
 
 上面的代码中，intNum2为一个Integer类型的实例，intNum1为Java中的基础数据类型，将intNum1赋值给intNum2便是自动装箱；而将intNum2赋值给intNum3则是自动拆箱。
@@ -295,7 +301,7 @@ hashCode()只是简单示例写的，真正的生产换将不是这样的
 
 如果你重写了equals，比如说是基于对象的内容实现的，而保留hashCode的实现不变，那么很可能某两个对象明明是“相等”，而hashCode却不一样。
 
-这样，当你用其中的一个作为键保存到hashMap、hasoTable或hashSet中，再以“相等的”找另一个作为键值去查找他们的时候，则根本找不到。
+这样，当你用其中的一个作为键保存到hashMap、hashTable或hashSet中，再以“相等的”找另一个作为键值去查找他们的时候，则根本找不到。
 
 **为什么equals()相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等?**
 
