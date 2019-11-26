@@ -10,9 +10,13 @@ wifi密码：gsww2402
 
 gitlab 账号密码：litian            UzU!709Ey
 
+固废前端仓库地址：http://202.100.72.222:8081/jiangyonglu/eemp-p-gs-slws-b-vue.git
 
+列表不确定长度靠左
 
+确定居中
 
+数字靠右
 
 
 
