@@ -406,7 +406,7 @@ String[] name() default {};
 
 `@Profile("java7"):`for循环
 
-`@Profile("java7"):`Labmda
+`@Profile("java8"):`Labmda
 
 ```java
 public interface CalculateService {

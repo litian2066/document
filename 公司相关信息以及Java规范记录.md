@@ -1,3 +1,5 @@
+## 个人信息
+
 姓名： 李天 
 
 电话： 13718725513
@@ -6,11 +8,23 @@
 
 是否外包： 否
 
+## wifi密码
+
 wifi密码：gsww2402
 
-gitlab 账号密码：litian            UzU!709Ey
+## gitlab账号密码
+
+gitlab 账号密码：litian      UzU!709Ey      
+
+
+
+## 项目前端地址
 
 固废前端仓库地址：http://202.100.72.222:8081/jiangyonglu/eemp-p-gs-slws-b-vue.git
+
+http://10.18.101.167:8081/jiangyonglu/eemp-p-gs-slws-b-vue.git
+
+## 前端列表排列
 
 列表不确定长度靠左
 
@@ -18,7 +32,217 @@ gitlab 账号密码：litian            UzU!709Ey
 
 数字靠右
 
+## 前端每日执行
 
+每天删除前端项目里面的node_modules里面的ep-ui文件夹，然后重新cnpm install
+
+执行npm run dll 预编译
+
+commons:
+  dal:
+    jdbc:
+      main-data-source:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://10.18.100.4:3306/eco_solidwaste_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+        username: appuser
+        password: 123456
+        domain-code: eco_sample
+      ds-type: hikaricp
+
+
+
+一、	土壤git地址
+http://202.100.72.222:8081/jiangyonglu/eemp-p-gs-slev-s-biz-module.git
+http://202.100.72.222:8081/jiangyonglu/eemp-p-gs-slev-s-biz-server.git
+http://202.100.72.222:8081/jiangyonglu/eemp-p-gs-slev-s-core-module.git
+二、	固废git地址
+
+
+
+http://10.18.100.4:8081/wangqian/eco-solidWaste-demo.git
+
+
+
+http://10.18.101.167:8081/jiangyonglu/eemp-p-gs-slws-s-biz-module.git
+
+http://10.18.101.167:8081/jiangyonglu/eemp-p-gs-slws-s-biz-module.git
+http://10.18.101.167:8081/jiangyonglu/eemp-p-gs-slws-s-biz-server.git
+http://10.18.101.167:8081/jiangyonglu/eemp-p-gs-slws-s-core-module.git
+三、	达梦数据库连接信息
+1、土壤
+ip：10.18.101.81 
+port：5236
+用户名：EEMP_SLEV
+密码：zdww@2019
+2、固废
+ip：10.18.101.81 
+port：5236
+用户名：EEMP_SLWS
+密码：zdww@2019
+
+## 公共组件git地址
+
+http://10.18.101.167:8081/R11-0547/eemp-midend-s-common-core-module.git
+
+http://10.18.101.167:8081/R11-0547/eemp-midend-s-common-core-server.git
+
+## 公共组件服务器地址
+
+10.18.101.141    root   gsww@100.com
+10.18.101.144    root   ww100.com
+10.18.101.148    root   gsww@100.com
+
+mac使用ssh root@ip 登录linux 
+
+````
+ssh root@10.18.101.144
+````
+
+/usr/local/docker-tomcat-webapp
+
+d:/tmp
+
+Mac使用sudo su -登录root用户
+
+
+
+绝对路径：
+
+````
+scp /Users/litian/Documents/docker/eemp-common-core-server-exec.jar root@10.18.101.144:/usr/local/docker-tomcat-webapp
+````
+
+
+
+相对路径：scp ./test.py [xiaoming@192.189.10.10](mailto:xiaoming@192.189.10.10):/var/test/
+
+传文件夹：scp -r /mac/test/ [root@193.158.30.20](mailto:root@193.158.30.20):/var/test/
+
+````
+scp -r /Users/litian/Documents/docker/eemp-midend-b-common-vue  root@10.18.101.144:/usr/local/docker-tomcat-webapp
+````
+
+0f629e205cad
+
+docker_tomcat001
+
+scp 
+
+
+
+
+
+http://10.18.101.144/eemp-midend-b-common-vue
+
+````
+docker run -d -p 8098:8080 -v /Users/litian/Documents/docker/webapp:/usr/local/tomcat/webapps --name my-tomcat tomcat
+````
+
+````
+docker cp /Users/litian/Documents/docker/webapp/eemp-midend-b-common-vue/ my-tomcat:/usr/local/tomcat/webapps/
+````
+
+````
+docker run -d -p 8000:8080 -v /usr/local/docker-tomcat-webapp:/usr/local/tomcat/webapps --name test-tomcat tomcat
+````
+
+````
+docker cp /usr/local/docker-tomcat-webapp/eemp-midend-b-common-vue/ docker_tomcat001:/usr/local/tomcat/webapps/
+````
+
+## 绩效考核
+
+http://202.100.72.222:8081/jiangyonglu/eemp-midend-b-pfem-vue.git
+
+````
+git clone -b develop http://10.18.101.167:8081/jiangyonglu/eemp-midend-b-pfem-vue.git
+````
+
+绩效考核切换到develop_v2分支
+
+`````
+git clone -b develop_v2 http://10.18.101.167:8081/jiangyonglu/eemp-midend-b-pfem-vue.git
+`````
+
+以后对接其他项目，也就是其他项目通过iframe嵌入进去g
+
+固定列
+
+1. 
+       background: #ebf3fe;
+  
+2. ​    border: 1px solid #dee5ef;
+
+考核计划下发的是省市区，不用到部门
+
+## mac连接远端linux服务器
+
+ssh root@10.18.101.144
+
+## 禅道密码
+
+禅道：litian litian123456
+
+## 工作内容
+
+| 日期            | 工作内容                                                     | 操作内容                                                     |
+| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 11.25           | 入职，拉取固废前端代码并跑起来                               |                                                              |
+| 11.26           | 熟悉前端代码以及vue                                          |                                                              |
+| 11.27           | 开发危险废物月台账功能                                       |                                                              |
+| 11.28           | 开发固废监测下重点企业监控前端模块                           |                                                              |
+| 11.29           | 开发固废转移监控前端模块                                     |                                                              |
+| 11.30（星期六） | 加班，开发治理成效转移关联模块                               |                                                              |
+| 12.2            | 调整前端开发过的模块细节，修改图标                           |                                                              |
+| 12.3            | 1.熟悉前端项目中的一张图功能 2.了解GIS地图开发 3.学习额Leaflet.js相关内容 |                                                              |
+| 12.4            | 1.调整之前页面的细节（删除无用的代码，更加符合前端规范） 2.绩效考核下考核评分功能完善 3.开会学习固废相关业务知识以及项目整体架构 |                                                              |
+| 12.5            | 按照要求修改固废监测，月台账，绩效评分，转移关联前端代码包括： 1.列表宽度调整 2.列表删除确认 3.列表双击进入详情页面 4.详情页样式调整 5.页面下拉组件调整 | 1. 所有详情页td都加上<div class="tablecell"></div>2.所有的操作列宽度都是100 |
+| 12.6            | 1.学习公司统一认证权限管理相关内容<br/>2.开会学习后台项目架构和代码规范 |                                                              |
+| 12.23           | 1.研究vue-simple-uploader组件后台多线程可行性                |                                                              |
+| 12.24           | 研究相关分页组件<br/>研究pagehelper相关内容                  |                                                              |
+| 12.25           | 研究pageHelper相关内容<br/>验证pageHelper集成的可行性        |                                                              |
+| 12.26           | 1.研究公司自带分页组件<br>2.编写前端示例<br>3.开会           |                                                              |
+| 12.27           | 1.研究公司自带分页组件，验证queryMap的可行性<br>2.编写分页组件相关使用文档 |                                                              |
+
+
+
+1.调整上周开发过的前端模块，按照给出的指定要求修改
+2.熟悉前端项目中的一张图功能，了解GIS地图开发 ，学习Leaflet.js相关内容
+3.调整页面细节（删除无用的代码，更加符合前端规范） ，完善绩效考核下考核评分功能，开会学习固废相关业务知识以及项目整体架构
+4.按照要求修改固废监测，月台账，绩效评分，转移关联前端代码
+      包括： 1.列表宽度调整 2.列表删除确认 3.列表双击进入详情页面 4.详情页样式调整 5.页面下拉组件调整
+5.学习公司统一认证权限管理相关内容，开会学习后台项目架构和代码规范
+
+
+
+## maven配置
+
+`/Users/litian/Documents/JAVA/maven/.m2/settings2-company.xml`
+
+`/Users/litian/Documents/JAVA/maven/.m2/repository`
+
+## 加班记录
+
+|         |      |
+| ------- | ---- |
+|         |      |
+| 二月8日 | 1    |
+|         |      |
+
+
+
+# vscode插件：
+
+1. `css peek`
+2. `Prettier` 代码格式化
+3. 图标集：`Icon Fonts` 目前只正对font awsome 与 bootstrap的图标
+4. 自动重命名标签：`Auto Rename Tag`
+5. HTML模板：`HTML Boilerplate`
+6. 颜色提示：`color info`
+7. 自动闭合标签：`Auto Close Tag`
+8. html中css class的智能提示：`HTML CSS Support`
+
+## 后端代码规范
 
 1. **【强制】**POJO 类中布尔类型的变量，都不要加 is，否则部 分框架解析会引起序列化错误。
 
@@ -204,8 +428,103 @@ gitlab 账号密码：litian            UzU!709Ey
 
 28. 
 
-    
+  ## 上传组件
 
+  1. 基于BS架构的文件上传，也就是说有页面，那么他们怎么调用？
+2. 页面是否有拖拽，然后有上传的进度条？
+  3. 支持大文件上传、断点续传、以及多任务多文件上传
+  4. 文件上传的话是ftp还是sftp或者是上传到服务器本地，是否要用到fdfs
+  5. 上传的话是否有表存储上传到服务器的文件的信息以及路径
+  6. 使用mysql数据库么
+  
      
-
+  
     
+
+ select
+        id, department_name, deleted_flag, create_time, update_time
+        from eco_department department
+        where deleted_flag = 0 limit :_page_start_index , :_page_size
+
+
+
+
+
+and department.department_name = #{departmentName}
+
+
+
+
+
+select
+        id, department_name, deleted_flag, create_time, update_time
+        from eco_department department
+        where deleted_flag = 0
+
+
+
+
+
+select
+        id, department_name, deleted_flag, create_time, update_time
+        from eco_department department
+        where deleted_flag = 0
+
+### 商业模式
+
+### 还原用户需求
+
+上门厨师
+
++ 谁需求
+
+  普通人是不会考虑上门厨师，我们使用的场景可能会有聚会，亲人，朋友，
+
+  本质需求是招待他人，所以饭菜要可口，有卖相。
+
+  要求服务人员在节假日提供
+
+  谁能提供服务：
+
+  + 餐厅、食堂的述求是挣钱，但是个性化的需求难以满足，更倾向于外卖等高效率的服务
+  + 餐厅、食堂厨师的述求是挣钱，但不能得罪现任雇主
+
+  服务者的述求：
+
+  明确三方  
+
+  服务者群体：
+
+  餐厅厨师？ 不行
+
+  食堂厨师？ 不行
+
++ 用来干嘛
+
+绩效考核
+
+代码规范 spring alibaba
+
+上网尽量找点可以扩展的代码
+
+## 工作流
+
+任务：
+
+1. 业务系统关联instanceid，根据当前办理人去获取所有的代办流程，返回所有流程实例id，获取已办的流程toDone，都返回instanceId的集合，存到业务表的表单
+
+2. 获取下一个节点信息，getNextNode，提交做一个弹窗，弹窗里面包含的内容，应该是把下一个节点的信息，点击节点出现相应的班里人，勾选节点和勾选班里人，相当于把节点指定给谁办，弹出框获取下个节点，点击确定已经把
+
+   ![image-20200303092007898](/Users/litian/Library/Application Support/typora-user-images/image-20200303092007898.png)
+
+每个节点都有暂存和提交
+
++ 暂存也是会跳转到下一个节点
+
+![image-20200303092153372](/Users/litian/Library/Application Support/typora-user-images/image-20200303092153372.png)
+
++ 提交获取到下一个节点，每个节点的班里人有哪些
+
+业务表只保留一张请假表
+
+提交

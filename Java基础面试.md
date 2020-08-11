@@ -305,7 +305,9 @@ hashCode()只是简单示例写的，真正的生产换将不是这样的
 
 **为什么equals()相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等?**
 
-1、因为是按照hashCode来访问小内存块，所以hashCode必须相等。 2、HashMap获取一个对象是比较key的hashCode相等和equal为true。
+1、因为是按照hashCode来访问小内存块，所以hashCode必须相等。
+
+ 2、HashMap获取一个对象是比较key的hashCode相等和equal为true。
 
 之所以hashCode相等，却可以equal不等，就比如ObjectA和ObjectB他们都有属性name，那么hashCode都以name计算，所以hashCode一样，但是两个对象属于不同类型，所以equal为false。
 

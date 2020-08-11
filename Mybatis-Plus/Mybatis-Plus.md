@@ -111,6 +111,22 @@ public class User {
 }
 ````
 
+启动类加入mappersacn
+
+````java
+SpringBootApplication
+@MapperScan("com.baomidou.mybatisplus.samples.quickstart.mapper")
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(QuickStartApplication.class, args);
+    }
+
+}
+````
+
+
+
 测试
 
 ````java
@@ -183,9 +199,9 @@ public void testInsert() {
 
 `@TableId`
 
-mybatis-plus默认找主键的实体类属性是id，上面的测试我们没有提供主键的字段信息，它却能自己插入自增的数据就是这个道理。但是如果我们的主键是`user_id`，那么它就不能识别主键，可以使用``@TableId``修饰在主键字段上就可以。
+mybatis-plus默认找主键的实体类属性是id，上面的测试我们没有提供主键的字段信息，它却能自己插入自增的数据就是这个道理。但是如果我们的主键是`user_id`，那么它就不能识别主键，可以使用``@TableId``修饰在主键字段上就可以。**需要在注解里面指定id的数据库字段名：`@TableId(value = "user_id")`**
 
-`@TableFiled("xxx")`
+`@TableField("xxx")`
 
 实体属性名对应数据库里面的字段名
 
